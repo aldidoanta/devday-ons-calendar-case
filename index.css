@@ -1,0 +1,91 @@
+:root {
+    --spark-orange: #FF6C37;
+    --heritage-blue: #023A4F;
+
+    --recruitment_green: #85C9B7;
+    --recruitment_bright_blue: #0071BA;
+    --recruitment_light_blue: #01DAF8;
+    --recruitment_coral_red: #E83C5A;
+    --recruitment_nude: #FBCEB4;
+    
+    --background-primary: var(--recruitment_green);
+    --background-secondary: var(--recruitment_nude);
+
+    --text-base: #4B4B4B;
+    --calendar-background: #FFF;
+
+
+    --calendar-height: 1440px;
+    --calendar-width: 400px;
+    --padding-base: 0.3rem;
+}
+
+* {
+    color: var(--text-base);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, serif;
+}
+
+.application {
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(45deg, var(--background-primary) 50%, var(--background-secondary) 50%);
+}
+
+.calendar-container {
+    height: 80vh;
+    overflow-y: scroll;
+    user-select: none;
+}
+
+.calendar {
+    position: relative;
+    height: var(--calendar-height);
+    width: var(--calendar-width);
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.hour {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100% / 24);
+    display: flex;
+    flex-direction: row;
+}
+
+.hour:not(:last-child) {
+    border-bottom: 1px solid var(--text-base);
+}
+
+.time {
+    box-sizing: border-box;
+    width: 55px;
+    padding: var(--padding-base);
+    border-right: 1px solid var(--text-base);
+}
+
+.appointments {
+    flex-grow: 1;
+    height: 100%;
+    background-size: 100% 25%;
+    background-image: linear-gradient(to bottom, lightgrey 1px, transparent 1px);
+}
+
+.calendar-entry {
+    background: pink;
+    width: calc(100% - 55px);
+    margin-left: 55px;
+    position: absolute;
+}
+
+.calendar-entry-template {
+    opacity: 0.7;
+}
