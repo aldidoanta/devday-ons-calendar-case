@@ -64,20 +64,13 @@
     }
 
     const onDrag = ({xStart, yStart, x, y}) => {
-        console.log({
-            xStart,
-            yStart,
-            x,
-            y,
-        })
-
         clearTemplate()
-        render('#calendar', calendarEntry(yStart - (yStart % 15), y - (y % 15), true, `New appointment`))
+        render('#calendar', calendarEntry(yStart, y, true, `New appointment`))
     }
 
     const onDragEnd = ({xStart, yStart, x, y}) => {
         clearTemplate()
-        render('#calendar', calendarEntry(yStart - (yStart % 15), y - (y % 15), false, `New appointment`))
+        render('#calendar', calendarEntry(yStart, y, false, `New appointment`))
     }
 
     const initialPaint = () => {
