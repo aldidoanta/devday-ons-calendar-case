@@ -15,7 +15,6 @@
     --calendar-background: #FFF;
 
 
-    --calendar-height: 1440px;
     --calendar-width: 400px;
     --padding-base: 0.3rem;
 }
@@ -51,6 +50,17 @@ body {
     background: white;
     display: flex;
     flex-direction: column;
+}
+
+.input-fields {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 5px;
+    padding: 5px;
+}
+
+label {
+    text-align:right;
 }
 
 .hour {
