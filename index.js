@@ -1,34 +1,3 @@
-/**
- * Method which implements the 'snapping' logic for the starting point of the (new) appointment.
- *
- * @param {number} calendar_height Height, in pixels, of the calendar.
- * @param {number} pixel_value Raw selected pixel value. This value represent the earliest selected time (i.e. if one
- * drags from bottom to top, the dragged value will be passed).
- * @param {string} customer_id The value filled in the input field Customer.
- * @param {string} employee_id The value filled in the input field Employee.
- *
- * @return {number} Pixel value that needs to be used as the starting point of the (new) appointment.
- */
-function snapStart(calendar_height, pixel_value, customer_id, employee_id) {
-    return pixel_value;
-}
-
-/**
- * Method which implements the 'snapping' logic for the stopping point of the (new) appointment.
- *
- * @param {number} calendar_height Height, in pixels, of the calendar.
- * @param {number} pixel_value Raw selected pixel value. This value represent the latest selected time (i.e. if one
- * drags from bottom to top, the initial value will be passed).
- * @param {string} customer_id The value filled in the input field Customer.
- * @param {string} employee_id The value filled in the input field Employee.
- *
- * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
- */
-function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
-    return pixel_value;
-}
-
-
 (function() {
     const CALENDAR_HEIGHT = 1440;
 
@@ -115,6 +84,7 @@ function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
     }
 
     const initialPaint = () => {
+        drawCustomerOrganizationSelect();
         [...new Array(24)].forEach((_, hour) => render("#calendar", calendarHour(hour)));
 
         const calendarContainer = document.querySelector('#calender-container');
@@ -122,6 +92,23 @@ function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
         calendarContainer.addEventListener('mousedown', onMouseDown(calendarContainer));
         calendarContainer.addEventListener('mousemove', onMouseMove(calendarContainer));
         document.addEventListener('mouseup', onMouseUp(calendarContainer));
+    }
+
+    const drawCustomerOrganizationSelect = () => {
+        const customer_organizations = Object.keys(customer_data);
+
+        customer_organizations.forEach(id => { render("#customer-id",`<option value="${id}"> ${id} </option>`) })
+
+        drawEmployeeSelect()
+    }
+
+    const drawEmployeeSelect = () => {
+        const customer_id = document.getElementById('customer-id').value;
+        document.getElementById('employee-id').innerHTML = '';
+
+        const employee_ids= customer_id ? Object.keys(customer_data[customer_id]) : []
+
+        employee_ids.forEach(id => { render("#employee-id", `<option value="${id}"> ${id} </option>`)})
     }
 
     const clear_calendar_entries = () => {
@@ -162,4 +149,5 @@ function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
         .addEventListener('click', () => {clear_calendar_entries()});
     document.documentElement.style
         .setProperty('--calendar-height', `${CALENDAR_HEIGHT}px`);
+    document.querySelector('#customer-id').addEventListener("change", drawEmployeeSelect)
 })()
