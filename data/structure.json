@@ -1,0 +1,17 @@
+{ // file contains a single json object. Each key is a String.
+  "customer_0": { // Represents a customer, contains a map with 25 employees. Number at the end represent the customer id
+    "employee_0_00": [ // Array containing 250 events created by this employee. First number in key refers to customer
+      // id, second number refers to the client id: `employee_<customer_id>_<employee_id>`
+      { // An event object contains the following fields:
+        "date": "2022-01-01", // date on which the event takes place. YYYY-MM-DD format
+        "start": 3600, // seconds since 0:00 when event starts
+        "stop": 7200, // seconds since 0:00 when event stops
+        "human_start": "01:00", // human readable time string of start
+        "human_stop": "02:00", // human readable time string of stop
+      }
+    ],
+    "employee_0_01": [ ] // Next employee object, follows same structure as `employee_0_00`
+  },
+  "customer_1": { } // Next customer object, follows same structure as `customer_0`
+}
+
