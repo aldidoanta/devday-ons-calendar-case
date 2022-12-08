@@ -84,6 +84,7 @@
     }
 
     const initialPaint = () => {
+        drawCustomerOrganizationSelect();
         [...new Array(24)].forEach((_, hour) => render("#calendar", calendarHour(hour)));
 
         const calendarContainer = document.querySelector('#calender-container');
@@ -91,6 +92,23 @@
         calendarContainer.addEventListener('mousedown', onMouseDown(calendarContainer));
         calendarContainer.addEventListener('mousemove', onMouseMove(calendarContainer));
         document.addEventListener('mouseup', onMouseUp(calendarContainer));
+    }
+
+    const drawCustomerOrganizationSelect = () => {
+        const customer_organizations = Object.keys(customer_data);
+
+        customer_organizations.forEach(id => { render("#customer-id",`<option value="${id}"> ${id} </option>`) })
+
+        drawEmployeeSelect()
+    }
+
+    const drawEmployeeSelect = () => {
+        const customer_id = document.getElementById('customer-id').value;
+        document.getElementById('employee-id').innerHTML = '';
+
+        const employee_ids= customer_id ? Object.keys(customer_data[customer_id]) : []
+
+        employee_ids.forEach(id => { render("#employee-id", `<option value="${id}"> ${id} </option>`)})
     }
 
     const clear_calendar_entries = () => {
@@ -131,4 +149,5 @@
         .addEventListener('click', () => {clear_calendar_entries()});
     document.documentElement.style
         .setProperty('--calendar-height', `${CALENDAR_HEIGHT}px`);
+    document.querySelector('#customer-id').addEventListener("change", drawEmployeeSelect)
 })()

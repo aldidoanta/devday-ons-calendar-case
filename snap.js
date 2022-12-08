@@ -10,7 +10,8 @@
  * @return {number} Pixel value that needs to be used as the starting point of the (new) appointment.
  */
 function snapStart(calendar_height, pixel_value, customer_id, employee_id) {
-    // console.log(customer_data);
+    // console.log(customer_data[customer_id][employee_id]);
+
     return pixel_value;
 }
 
@@ -26,5 +27,6 @@ function snapStart(calendar_height, pixel_value, customer_id, employee_id) {
  * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
  */
 function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
+    // console.log(customer_data[customer_id][employee_id]);
     return pixel_value;
 }
