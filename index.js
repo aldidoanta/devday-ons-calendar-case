@@ -16,8 +16,8 @@
         const y0 = yStart > yEnd ? yEnd : yStart;
         const y1 = yStart > yEnd ? yStart : yEnd;
 
-        const start = snapStart(CALENDAR_HEIGHT, y0, customerId(), employeeId());
-        const stop = snapStop(CALENDAR_HEIGHT, y1, customerId(), employeeId());
+        const start = snapStart(CALENDAR_HEIGHT, y0, customerId(), employeeId(), date());
+        const stop = snapStop(CALENDAR_HEIGHT, y1, customerId(), employeeId(), date());
 
         const content = appointmentTitle(start, stop);
 
@@ -85,6 +85,8 @@
 
     const initialPaint = () => {
         drawCustomerOrganizationSelect();
+        setInitialDateOnDatePicker();
+
         [...new Array(24)].forEach((_, hour) => render("#calendar", calendarHour(hour)));
 
         const calendarContainer = document.querySelector('#calender-container');
@@ -100,6 +102,10 @@
         customer_organizations.forEach(id => { render("#customer-id",`<option value="${id}"> ${id} </option>`) })
 
         drawEmployeeSelect()
+    }
+
+    const setInitialDateOnDatePicker = () => {
+        document.getElementById('date').valueAsDate = new Date();
     }
 
     const drawEmployeeSelect = () => {
@@ -142,6 +148,10 @@
 
     const employeeId = () => {
         return document.getElementById('employee-id').value;
+    }
+
+    const date = () => {
+        return document.getElementById('date').value
     }
 
     document.addEventListener("DOMContentLoaded", initialPaint);

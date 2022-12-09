@@ -6,10 +6,11 @@
  * drags from bottom to top, the dragged value will be passed).
  * @param {string} customer_id The value filled in the input field Customer.
  * @param {string} employee_id The value filled in the input field Employee.
+ * @param {string} date The value filled in the input field Date.
  *
  * @return {number} Pixel value that needs to be used as the starting point of the (new) appointment.
  */
-function snapStart(calendar_height, pixel_value, customer_id, employee_id) {
+function snapStart(calendar_height, pixel_value, customer_id, employee_id, date) {
     // console.log(customer_data[customer_id][employee_id]);
 
     return pixel_value;
@@ -23,10 +24,12 @@ function snapStart(calendar_height, pixel_value, customer_id, employee_id) {
  * drags from bottom to top, the initial value will be passed).
  * @param {string} customer_id The value filled in the input field Customer.
  * @param {string} employee_id The value filled in the input field Employee.
+ * @param {string} date The value filled in the input field Date.
  *
  * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
  */
-function snapStop(calendar_height, pixel_value, customer_id, employee_id) {
+function snapStop(calendar_height, pixel_value, customer_id, employee_id, date) {
     // console.log(customer_data[customer_id][employee_id]);
+    
     return pixel_value;
 }
