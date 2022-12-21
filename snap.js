@@ -109,8 +109,10 @@ function getEmployeeData(customer_id, employee_id) {
         events,
         durationAggregate,
         minimumDuration: Math.min(...durations),
-        weightedAverageDuration: getWeightedAverage(durations),
+        weightedAverageDuration: getSnapValue(getWeightedAverage(durations), Object.keys(durationAggregate)),
     };
+
+    console.log(employeeData)
 };
 
 /**
@@ -144,4 +146,24 @@ function getWeightedAverage(durations) {
     // The total weight is actually 1
     // sum = sum / 1;
     return sum;
+}
+
+/**
+ * Function that returns the snap value of a duration
+ * 
+ * @param {number} averageDuration the duration value
+ * @param {Array.<number>} snapValues the array of possible snap values for the duration
+ * @returns {number} the snap value
+ */
+function getSnapValue(averageDuration, snapValues) {
+    // init with the latest value of snapValues
+    closest = [snapValues[snapValues.length - 1]]
+
+    for (let i = 0; i < snapValues.length; i++) {
+        curDist = Math.abs(snapValues[i] - averageDuration);
+        if(curDist < closest[0]) {
+            closest = [curDist, i];
+        }
+    }
+    return snapValues[closest[1]];
 }
