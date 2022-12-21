@@ -1,6 +1,9 @@
 const DEFAULT_INCREMENT = 15;
 const CALENDAR_HEIGHT = 1440;
 
+
+
+
 /**
  * Function which converts the pixel at which the mouse is to the seconds of the day it has.
  * 
@@ -79,5 +82,32 @@ function snapStart(calendar_height, pixel_value, customer_id, employee_id, date)
  * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
  */
 function snapStop(calendar_height, pixel_value, customer_id, employee_id, date) {
+    aggregateEvents(customer_id, employee_id);
     return constrain(pixel_value, calendar_height);
 }
+
+
+
+/**
+ * Gets employee data and extends it a bit
+ * @param {*} customer_id 
+ * @param {*} employee_id 
+ */
+function getEmployeeData(customer_id, employee_id) {
+    let events = customer_data[customer_id][employee_id];
+    let durationAggregate = {};
+    events = events.map(e => { return { ...e, duration: e.stop - e.start }; });
+    const durations = events.map(e => e.duration);
+    durations.forEach(duration => {
+        if (!(duration in durationAggregate)) {
+            durationAggregate[duration] = 0;
+        }
+        durationAggregate[duration] += 1;
+    });
+
+    const employeeData = {
+        events,
+        durationAggregate,
+        minimumDuration: Math.min(...durations),
+    };
+};

@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Nedap devday</title>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Nedap devday</title>
 
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <div class="application">
-        <div class="input-fields">
-            <label for="customer-id">Customer</label>
-            <select name="customer" id="customer-id"> </select>
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <div class="application">
+            <div class="input-fields">
+                <label for="customer-id">Customer</label>
+                <select name="customer" id="customer-id"></select>
 
-            <label for="employee-id">Employee</label>
-            <select name="employee" id="employee-id"></select>
+                <label for="employee-id">Employee</label>
+                <select name="employee" id="employee-id"></select>
 
-            <label for="date">Date</label>
-            <input type="date" id="date">
+                <label for="date">Date</label>
+                <input type="date" id="date" />
 
-            <button type="button" id="button-clear">Clear</button>
-        </div>
-        <div class="calendar-container" id="calender-container">
-            <div class="calendar" id="calendar">
+                <button type="button" id="button-clear">Clear</button>
+            </div>
+            <div class="calendar-container" id="calender-container">
+                <div class="calendar" id="calendar"></div>
             </div>
         </div>
-    </div>
 
-
-    <script type="text/javascript" src="customer_data.js"></script>
-    <script type="text/javascript" src="snap.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-</body>
+        <script
+            type="text/javascript"
+            src="customer_data.js"
+            type="module"
+        ></script>
+        <script type="text/javascript" src="snap.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
 </html>
