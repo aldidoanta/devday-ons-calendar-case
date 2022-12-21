@@ -82,8 +82,9 @@ function snapStart(calendar_height, pixel_value, customer_id, employee_id, date)
  * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
  */
 function snapStop(calendar_height, pixel_value, customer_id, employee_id, date) {
-    getEmployeeData(customer_id, employee_id);
-    return constrain(pixel_value, calendar_height);
+    const employeeData = getEmployeeData(customer_id, employee_id);
+    console.log('snap in minutes: ' + employeeData.weightedAverageDuration / 60);
+    return constrain(pixel_value, calendar_height, employeeData.weightedAverageDuration / 60);
 }
 
 
@@ -112,7 +113,7 @@ function getEmployeeData(customer_id, employee_id) {
         weightedAverageDuration: getSnapValue(getWeightedAverage(durations), Object.keys(durationAggregate)),
     };
 
-    console.log(employeeData)
+    return employeeData;
 };
 
 /**
