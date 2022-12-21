@@ -65,7 +65,9 @@ function constrain(pixel_value, calendar_height, minute_increment = DEFAULT_INCR
  * @return {number} Pixel value that needs to be used as the starting point of the (new) appointment.
  */
 function snapStart(calendar_height, pixel_value, customer_id, employee_id, date) {
-    return constrain(pixel_value, calendar_height);
+    const { startIncrementAggregate } = getEmployeeData(customer_id, employee_id);
+    const [increment, _] = getMostFrequent(startIncrementAggregate);
+    return constrain(pixel_value, calendar_height, parseInt(increment));
 }
 
 
@@ -82,8 +84,10 @@ function snapStart(calendar_height, pixel_value, customer_id, employee_id, date)
  * @return {number} Pixel value that needs to be used as the stopping point of the (new) appointment.
  */
 function snapStop(calendar_height, pixel_value, customer_id, employee_id, date) {
-    getEmployeeData(customer_id, employee_id);
-    return constrain(pixel_value, calendar_height);
+    const { stopIncrementAggregate } = getEmployeeData(customer_id, employee_id);
+    const [increment, _] = getMostFrequent(stopIncrementAggregate);
+
+    return constrain(pixel_value, calendar_height, parseInt(increment));
 }
 
 
@@ -96,18 +100,82 @@ function snapStop(calendar_height, pixel_value, customer_id, employee_id, date) 
 function getEmployeeData(customer_id, employee_id) {
     let events = customer_data[customer_id][employee_id];
     let durationAggregate = {};
+    let startAggregate = {};
+    let stopAggregate = {};
+    let increments = [15, 10, 5, 2, 1];
+    let startIncrementAggregate = {
+        1: 0,
+        2: 0,
+        5: 0,
+        10: 0,
+        15: 0,
+    };
+    let stopIncrementAggregate = {
+        1: 0,
+        2: 0,
+        5: 0,
+        10: 0,
+        15: 0,
+    };
+    let incrementCount = 0;
     events = events.map(e => { return { ...e, duration: e.stop - e.start }; });
     const durations = events.map(e => e.duration);
-    durations.forEach(duration => {
+    events.map(e => e.duration).forEach(duration => {
         if (!(duration in durationAggregate)) {
             durationAggregate[duration] = 0;
         }
         durationAggregate[duration] += 1;
     });
 
+    events.map(e => e.start).forEach(start => {
+        for (const increment of increments) {
+            if (start % (increment * 60) === 0) {
+                startIncrementAggregate[increment]++;
+                incrementCount++;
+                break;
+            }
+        }
+        if (!(start in startAggregate)) {
+            startAggregate[start] = 0;
+        }
+        startAggregate[start] += 1;
+    });
+    events.map(e => e.stop).forEach(stop => {
+        for (const increment of increments) {
+            if (stop % (increment * 60) === 0) {
+                stopIncrementAggregate[increment]++;
+                incrementCount++;
+                break;
+            }
+        }
+        if (!(stop in stopAggregate)) {
+            stopAggregate[stop] = 0;
+        }
+        stopAggregate[stop] += 1;
+    });
+
+
+
+
     const employeeData = {
         events,
         durationAggregate,
+        startAggregate,
+        stopAggregate,
+        startIncrementAggregate,
+        stopIncrementAggregate,
         minimumDuration: Math.min(...durations),
     };
+    return employeeData;
 };
+
+function getMostFrequent(aggregate) {
+    let sortable = [];
+    for (const k in aggregate) {
+        sortable.push([k, aggregate[k]]);
+    }
+    sortable.sort((a, b) => {
+        return b[1] - a[1];
+    });
+    return sortable[0];
+}
