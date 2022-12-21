@@ -109,5 +109,39 @@ function getEmployeeData(customer_id, employee_id) {
         events,
         durationAggregate,
         minimumDuration: Math.min(...durations),
+        weightedAverageDuration: getWeightedAverage(durations),
     };
 };
+
+/**
+ * Function that returns the denominator for the weigh
+ * 
+ * @param {number} durations the array of duration values
+ * @returns {number} the weighted average value
+ */
+function getWeightDenominator(itemLength) {
+    denominator = 0;
+    for (let i = 0; i <= itemLength; i++) {
+        denominator += i;
+    }
+    return denominator;
+}
+
+/**
+ * Function that returns the weighted average of an array of duration values
+ * duration[0] has the weight of 1/weightDenominator
+ * duration[n] has the weight of n+1/weightDenominator
+ * 
+ * @param {number} durations the array of duration values
+ * @returns {number} the weighted average value
+ */
+function getWeightedAverage(durations) {
+    const weightDenominator = getWeightDenominator(durations.length);
+    let sum = 0;
+    for (let i = 0; i < durations.length; i++) {
+        sum += durations[i] * ((i+1) / weightDenominator);
+    }
+    // The total weight is actually 1
+    // sum = sum / 1;
+    return sum;
+}
